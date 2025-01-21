@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-const { test, describe, expect, beforeEach } = require('@playwright/test')
+const { test, describe, expect, beforeEach } = require('@playwright/test') // eslint-disable-line
 
 describe('Pokedex', () => {
   test('front page can be opened', async ({ page }) => {
