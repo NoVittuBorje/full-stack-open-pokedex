@@ -8,8 +8,6 @@ on:
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
-    env:
-      HOME: /root
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,6 +23,8 @@ jobs:
         run: npm test
       - name: e2e tests
         uses: cypress-io/github-action@v5
+        env:
+          HOME: /root
         with:
           command: npm run test:e2e
           start: npm run start-prod
