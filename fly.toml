@@ -1,8 +1,7 @@
 app = "full-stack-open-pokedex-main-shy-bird-7375"
 [build]
 
-[env]
-  PORT = "3000" # add this
+
 
 [http_service]
   internal_port = 3000 # ensure that this is same as PORT
