@@ -33,8 +33,9 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-
+  
   Deploy_fly:
+      if: ${{ github.event_name == 'push' }}
       name: Deploy app
       runs-on: ubuntu-latest
       concurrency: deploy-group    # optional: ensure only one action runs at a time
