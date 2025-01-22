@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000 // eslint-disable-line
 app.use(express.static('dist'))
 
 app.listen(PORT, () => {
-  console.log(`server started on port ${PORT} `) // eslint-disable-line
+  console.log(`server started on port ${PORT}`) // eslint-disable-line
 })
 
 app.get('/health', (req, res) => {
