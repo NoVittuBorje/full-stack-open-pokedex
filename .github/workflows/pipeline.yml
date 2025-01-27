@@ -40,7 +40,7 @@ jobs:
   Deploy_fly:
     runs-on: ubuntu-latest
     concurrency: deploy-group    # optional: ensure only one action runs at a time
-    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
+    if: ${{ (github.event_name == 'push') && (!contains(github.event.head_commit.message, '#skip'))}}
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
@@ -55,7 +55,7 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
+    if: ${{ (github.event_name == 'push') && (!contains(github.event.head_commit.message, '#skip'))}}
     steps:
       - uses: actions/checkout@v4
       - name: Bump version and push tag
