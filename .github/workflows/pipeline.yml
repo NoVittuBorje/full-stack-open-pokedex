@@ -15,6 +15,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+            severity: error
+            details: Test Failed!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Install dependencies 
         run: npm install 
       - name: install ci
@@ -35,31 +42,23 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-        
-      - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1
-        if: success()
-        with:
-            severity: info
-            details: Test Succeeded!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v1
-        if: failure()
-        with:
-            severity: error
-            details: Test Failed!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
   
   Deploy_fly:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
     concurrency: deploy-group    # optional: ensure only one action runs at a time
     if: ${{ (github.event_name == 'push')  && (!contains(github.event.head_commit.message, '#skip')) }}
-    
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Build Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+            severity: error
+            details: Build Failed!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Install dependencies 
         run: npm install 
       - name: build and deploy
@@ -67,6 +66,7 @@ jobs:
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
           
   tag_release:
     needs: [simple_deployment_pipeline]
@@ -74,6 +74,13 @@ jobs:
     if: ${{ (github.event_name == 'push')  && (!contains(github.event.head_commit.message, '#skip')) }}
     steps:
       - uses: actions/checkout@v4
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+            severity: info
+            details: Test Succeeded!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@8c8163ef62cf9c4677c8e800f36270af27930f42
         env:
