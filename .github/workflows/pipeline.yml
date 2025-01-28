@@ -62,7 +62,7 @@ jobs:
           content: 'A new version of Pokedex deployed'
           title: ${{ job.status }}
           description: |
-            by `${{ github.actor }}`
+             to https://full-stack-open-pokedex-main-shy-bird-7375.fly.dev by `${{ github.actor }}`
           username: GitHub Actions
       - name: Send discord notification on failure
         uses: sarisia/actions-status-discord@5ddd3b114a98457dd80a39b2f00b6a998cd69008
