@@ -34,8 +34,9 @@ jobs:
             node-version: '20'
         - uses: actions/checkout@v4
         - name: Discord test success notify
-          uses: rjstone/discord-webhook-notify@v1.0.4
+          uses: rjstone/discord-webhook-notify@v1.0.3
           with:
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
             severity: info
             username: CustomUsername
             color: '#ff00aa'
@@ -44,5 +45,5 @@ jobs:
             details: 'Custom details: Somebody set up us the bomb.'
             footer: This is a footer.
             text: This is where text goes.
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+            
           
