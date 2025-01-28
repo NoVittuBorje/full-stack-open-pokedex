@@ -35,18 +35,7 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-          
-      - name: Send discord notification on success
-        uses: sarisia/actions-status-discord@5ddd3b114a98457dd80a39b2f00b6a998cd69008
-        if: ${{ success() }}
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          nodetail: true
-          content: "test succees"
-          title: ${{ job.status }}
-          description: |
-            by `${{ github.actor }}`
-          username: GitHub Actions
+
           
 
   
