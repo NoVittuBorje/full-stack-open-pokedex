@@ -6,16 +6,6 @@ on:
       - main
 
 jobs:
-  discord_notify:
-      runs-on: ubuntu-latest
-      name: Discord Webhook Notify
-      steps:
-        - name: Discord test success notify
-          uses: rjstone/discord-webhook-notify@v1
-          with:
-              severity: info
-              details: Test succeeded.
-              webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
   a_test_job:
     runs-on: ubuntu-20.04
     steps:
@@ -34,3 +24,16 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
+  discord_notify:
+      needs: [a_test_job]
+      runs-on: ubuntu-latest
+      name: Discord Webhook Notify
+      steps:
+        - name: Discord test success notify
+          uses: rjstone/discord-webhook-notify@v1
+          if: success()
+          with:
+              severity: info
+              details: Test succeeded.
+              webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          
