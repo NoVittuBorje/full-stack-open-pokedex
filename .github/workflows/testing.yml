@@ -29,6 +29,7 @@ jobs:
       runs-on: ubuntu-latest
       name: Discord Webhook Notify
       steps:
+        - uses: actions/checkout@v4
         - name: Discord test success notify
           uses: rjstone/discord-webhook-notify@v1.0.4
           with:
