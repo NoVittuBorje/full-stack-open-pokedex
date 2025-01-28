@@ -31,7 +31,6 @@ jobs:
       steps:
         - name: Discord test success notify
           uses: rjstone/discord-webhook-notify@v1.0.4
-          if: success()
           with:
               severity: info
               details: Test succeeded.
