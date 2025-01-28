@@ -24,14 +24,3 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
-  discord_notify:
-      needs: [a_test_job]
-      runs-on: ubuntu-latest
-      name: Discord Webhook Notify
-      steps:
-        - uses: actions/checkout@v2
-        - name: Run Discord Webhook
-          uses: johnnyhuy/actions-discord-git-webhook@main 
-          with:
-              webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          
