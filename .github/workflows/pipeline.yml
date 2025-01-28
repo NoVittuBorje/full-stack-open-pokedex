@@ -15,13 +15,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v1
-        if: failure()
-        with:
-            severity: error
-            details: Test Failed!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Install dependencies 
         run: npm install 
       - name: install ci
@@ -52,13 +45,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Build Failure
-        uses: rjstone/discord-webhook-notify@v1
-        if: failure()
-        with:
-            severity: error
-            details: Build Failed!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Install dependencies 
         run: npm install 
       - name: build and deploy
@@ -74,13 +60,6 @@ jobs:
     if: ${{ (github.event_name == 'push')  && (!contains(github.event.head_commit.message, '#skip')) }}
     steps:
       - uses: actions/checkout@v4
-      - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1
-        if: success()
-        with:
-            severity: info
-            details: Test Succeeded!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@8c8163ef62cf9c4677c8e800f36270af27930f42
         env:
