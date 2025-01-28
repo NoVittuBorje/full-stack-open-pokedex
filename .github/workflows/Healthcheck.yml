@@ -1,7 +1,7 @@
 name: Health check
 on:
   schedule:
-     - cron: 0/15 * * * *
+     - cron: 50 * 1 * *
      
 jobs:
   test_schedule:
