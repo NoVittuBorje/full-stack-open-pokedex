@@ -52,7 +52,21 @@ jobs:
       - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
+          
+      - name: Send discord notification on failure
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{ success() }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          content: "Hey <@316911818725392384>"
+          title: "deploy"
+          description: "Build and deploy to GitHub Pages"
+          image: ${{ secrets.EMBED_IMAGE }}
+          color: 0x0000ff
+          url: "https://github.com/sarisia/actions-status-discord"
+          username: GitHub Actions
+          avatar_url: ${{ secrets.AVATAR_URL }}
           
   tag_release:
     needs: [simple_deployment_pipeline]
@@ -64,5 +78,15 @@ jobs:
         uses: anothrNick/github-tag-action@8c8163ef62cf9c4677c8e800f36270af27930f42
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - uses: sarisia/actions-status-discord@v1
+      
+      - name: Send discord notification on succesful version bump.
+        if: ${{ success() }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: "New version of pokedex is ready!"
+          description: |
+            Version `${{ github.event.release.tag_name }}`
+          color: 0xff91a4
 
