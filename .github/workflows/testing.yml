@@ -10,13 +10,14 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
-      - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1
+      - name: Discord Webhook Notify
+        uses: rjstone/discord-webhook-notify@v1.0.4
         if: success()
         with:
             severity: info
             details: Test Succeeded!
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+            
       - name: github context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
